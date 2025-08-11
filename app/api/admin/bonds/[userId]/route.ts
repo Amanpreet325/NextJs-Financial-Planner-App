@@ -5,8 +5,9 @@ import { authOptions } from "../../../auth/[...nextauth]/route";
 
 export async function GET(
   _req: Request,
-  { params }: { params: Record<string, string | string[]> }
+  props: { params: Promise<Record<string, string | string[]>> }
 ) {
+  const params = await props.params;
   try {
     const session = await getServerSession(authOptions);
     if (!session || session.user.role !== "admin") {
@@ -40,8 +41,9 @@ export async function GET(
 
 export async function POST(
   req: Request,
-  { params }: { params: Record<string, string | string[]> }
+  props: { params: Promise<Record<string, string | string[]>> }
 ) {
+  const params = await props.params;
   try {
     const session = await getServerSession(authOptions);
     if (!session || session.user.role !== "admin") {
