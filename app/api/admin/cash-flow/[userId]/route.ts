@@ -5,7 +5,7 @@ import { authOptions } from "../../../auth/[...nextauth]/route";
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: Promise<{ userId: string }> }
+  { params }: { params: Record<string, string | string[]> }
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -13,8 +13,12 @@ export async function GET(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const { userId: userIdStr } = await params;
-    const userId = parseInt(userIdStr);
+    const userIdParam = params.userId;
+    const userIdStr = Array.isArray(userIdParam) ? userIdParam[0] : userIdParam;
+    const userId = parseInt(userIdStr ?? "", 10);
+    if (Number.isNaN(userId)) {
+      return NextResponse.json({ error: "Invalid userId" }, { status: 400 });
+    }
 
     const cashFlow = await prisma.cashFlow.findUnique({
       where: { userId },
@@ -24,8 +28,8 @@ export async function GET(
       return NextResponse.json({ error: "Cash flow not found" }, { status: 404 });
     }
 
-   const statements = cashFlow.statements ?? {};
-return NextResponse.json({ statements });
+    const statements = cashFlow.statements ?? {};
+    return NextResponse.json({ statements });
   } catch (error) {
     console.error("Error fetching cash flow:", error);
     return NextResponse.json(
@@ -37,7 +41,7 @@ return NextResponse.json({ statements });
 
 export async function POST(
   req: NextRequest,
-  { params }: { params: Promise<{ userId: string }> }
+  { params }: { params: Record<string, string | string[]> }
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -45,8 +49,12 @@ export async function POST(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const { userId: userIdStr } = await params;
-    const userId = parseInt(userIdStr);
+    const userIdParam = params.userId;
+    const userIdStr = Array.isArray(userIdParam) ? userIdParam[0] : userIdParam;
+    const userId = parseInt(userIdStr ?? "", 10);
+    if (Number.isNaN(userId)) {
+      return NextResponse.json({ error: "Invalid userId" }, { status: 400 });
+    }
     const data = await req.json();
 
     const cashFlow = await prisma.cashFlow.upsert({
