@@ -48,7 +48,6 @@ const data = {
     { title: "Financial Goals", url: "/admin/financial-goals", icon: IconChartBar },
     { title: "Medical Insurance", url: "/admin/medical-insurance", icon: IconFileDescription },
     { title: "Balances with Banks in Demand Deposits & Liquid Funds", url: "/admin/demand-deposits", icon: IconDatabase },
-    { title: "Life Insurance ULIPS & Endowment Plans", url: "/admin/life-insurance", icon: IconFileWord },
     { title: "Balances with Banks & Post Office in Time Deposits", url: "/admin/time-deposits", icon: IconDatabase },
     { title: "Recurring Deposits", url: "/admin/recurring-deposits", icon: IconReport },
     { title: "Bonds, NSC, KVP", url: "/admin/bonds", icon: IconFolder },

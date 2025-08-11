@@ -32,12 +32,12 @@ export default function EditClientPage() {
     financialGoals: boolean;
     netWorth: boolean;
     cashFlow: boolean;
-    lifeInsurance: boolean;
+  // lifeInsurance: boolean; (removed)
     medicalInsurance: boolean;
     mutualFunds: boolean;
     equities: boolean;
     bonds: boolean;
-    ppf: boolean;
+  // ppf: boolean; (removed for 14 forms)
     realEstate: boolean;
     goldJewellery: boolean;
     timeDeposits: boolean;
@@ -52,12 +52,12 @@ export default function EditClientPage() {
     financialGoals: false,
     netWorth: false,
     cashFlow: false,
-    lifeInsurance: false,
+  // lifeInsurance: false, (removed)
     medicalInsurance: false,
     mutualFunds: false,
     equities: false,
     bonds: false,
-    ppf: false,
+  // ppf: false, (removed for 14 forms)
     realEstate: false,
     goldJewellery: false,
     timeDeposits: false,
@@ -71,7 +71,7 @@ export default function EditClientPage() {
     if (status === "unauthenticated") {
       router.push("/")
     } else if (session?.user?.role !== "admin") {
-      router.push("/dashboard")
+      router.push("/client/dashboard")
     }
   }, [session, status, router])
 
@@ -122,12 +122,12 @@ export default function EditClientPage() {
       { key: 'financialGoals', path: '/admin/financial-goals', name: 'Financial Goals' },
       { key: 'netWorth', path: '/admin/net-worth', name: 'Net Worth' },
       { key: 'cashFlow', path: '/admin/cash-flow', name: 'Cash Flow' },
-      { key: 'lifeInsurance', path: '/admin/life-insurance', name: 'Life Insurance' },
+  // { key: 'lifeInsurance', path: '/admin/life-insurance', name: 'Life Insurance' }, (removed)
       { key: 'medicalInsurance', path: '/admin/medical-insurance', name: 'Medical Insurance' },
       { key: 'mutualFunds', path: '/admin/mutual-funds', name: 'Mutual Funds' },
       { key: 'equities', path: '/admin/equities', name: 'Equities' },
       { key: 'bonds', path: '/admin/bonds', name: 'Bonds' },
-      { key: 'ppf', path: '/admin/ppf', name: 'PPF' },
+  // { key: 'ppf', path: '/admin/ppf', name: 'PPF' }, (removed for 14 forms)
       { key: 'realEstate', path: '/admin/real-estate', name: 'Real Estate' },
       { key: 'goldJewellery', path: '/admin/gold-jewellery', name: 'Gold & Jewellery' },
       { key: 'timeDeposits', path: '/admin/time-deposits', name: 'Time Deposits' },
@@ -314,11 +314,11 @@ export default function EditClientPage() {
                   </CardContent>
                 </Card>
 
-                <Card className={`bg-gradient-to-br from-background to-muted/60 ${progress.lifeInsurance && progress.medicalInsurance ? 'border-green-500/50 bg-green-50/20' : 'border-orange-500/50'}`}>
+                <Card className={`bg-gradient-to-br from-background to-muted/60 ${progress.medicalInsurance ? 'border-green-500/50 bg-green-50/20' : 'border-orange-500/50'}`}>
                   <CardHeader>
                     <CardTitle className="flex items-center justify-between">
-                      <span>Insurance Policies</span>
-                      {(progress.lifeInsurance && progress.medicalInsurance) ? (
+                      <span>Medical Insurance</span>
+                      {progress.medicalInsurance ? (
                         <span className="text-green-600 text-sm">✓ Complete</span>
                       ) : (
                         <span className="text-orange-600 text-sm">⚠ Pending</span>
@@ -327,24 +327,15 @@ export default function EditClientPage() {
                   </CardHeader>
                   <CardContent>
                     <p className="text-muted-foreground mb-4">
-                      Manage life and medical insurance policies.
+                      Manage medical insurance policies.
                     </p>
-                    <div className="flex flex-col gap-2">
-                      <Button 
-                        className="w-full"
-                        variant={progress.lifeInsurance ? "outline" : "default"}
-                        onClick={() => router.push(`/admin/life-insurance?userId=${clientId}`)}
-                      >
-                        Life Insurance {progress.lifeInsurance ? "✓" : ""}
-                      </Button>
-                      <Button 
-                        className="w-full"
-                        variant={progress.medicalInsurance ? "outline" : "default"}
-                        onClick={() => router.push(`/admin/medical-insurance?userId=${clientId}`)}
-                      >
-                        Medical Insurance {progress.medicalInsurance ? "✓" : ""}
-                      </Button>
-                    </div>
+                    <Button 
+                      className="w-full"
+                      variant={progress.medicalInsurance ? "outline" : "default"}
+                      onClick={() => router.push(`/admin/medical-insurance?userId=${clientId}`)}
+                    >
+                      {progress.medicalInsurance ? "Review" : "Start"} Medical Insurance
+                    </Button>
                   </CardContent>
                 </Card>
 
@@ -390,11 +381,11 @@ export default function EditClientPage() {
                 </Card>
 
                 {/* Bank Deposits */}
-                <Card className={`bg-gradient-to-br from-background to-muted/60 ${progress.demandDeposits && progress.timeDeposits && progress.recurringDeposits && progress.ppf ? 'border-green-500/50 bg-green-50/20' : 'border-orange-500/50'}`}>
+                <Card className={`bg-gradient-to-br from-background to-muted/60 ${progress.demandDeposits && progress.timeDeposits && progress.recurringDeposits ? 'border-green-500/50 bg-green-50/20' : 'border-orange-500/50'}`}>
                   <CardHeader>
                     <CardTitle className="flex items-center justify-between">
                       <span>Bank Deposits</span>
-                      {(progress.demandDeposits && progress.timeDeposits && progress.recurringDeposits && progress.ppf) ? (
+                      {(progress.demandDeposits && progress.timeDeposits && progress.recurringDeposits) ? (
                         <span className="text-green-600 text-sm">✓ Complete</span>
                       ) : (
                         <span className="text-orange-600 text-sm">⚠ Pending</span>
@@ -427,13 +418,7 @@ export default function EditClientPage() {
                       >
                         Recurring Deposits {progress.recurringDeposits ? "✓" : ""}
                       </Button>
-                      <Button 
-                        className="w-full"
-                        variant={progress.ppf ? "outline" : "default"}
-                        onClick={() => router.push(`/admin/ppf?userId=${clientId}`)}
-                      >
-                        PPF Accounts {progress.ppf ? "✓" : ""}
-                      </Button>
+                      {/* PPF button removed for 14 forms */}
                     </div>
                   </CardContent>
                 </Card>

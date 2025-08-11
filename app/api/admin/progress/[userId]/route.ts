@@ -22,7 +22,7 @@ export async function GET(
       financialGoals,
       netWorth,
       cashFlow,
-      lifeInsurance,
+  // lifeInsurance, (removed)
       medicalInsurance,
       mutualFunds,
       equities,
@@ -38,7 +38,7 @@ export async function GET(
       prisma.financialGoals.findFirst({ where: { userId } }),
       prisma.netWorth.findFirst({ where: { userId } }),
       prisma.cashFlow.findFirst({ where: { userId } }),
-      prisma.lifeInsurance.findFirst({ where: { userId } }),
+  // prisma.lifeInsurance.findFirst({ where: { userId } }), (removed)
       prisma.medicalInsurance.findFirst({ where: { userId } }),
       prisma.mutualFunds.findFirst({ where: { userId } }),
       prisma.equities.findFirst({ where: { userId } }),
@@ -57,7 +57,7 @@ export async function GET(
       financialGoals: !!(financialGoals?.isCompleted || financialGoals),
       netWorth: !!(netWorth?.isCompleted || netWorth),
       cashFlow: !!(cashFlow?.isCompleted || cashFlow),
-      lifeInsurance: !!(lifeInsurance?.isCompleted || lifeInsurance),
+  // lifeInsurance: !!(lifeInsurance?.isCompleted || lifeInsurance), (removed)
       medicalInsurance: !!(medicalInsurance?.isCompleted || medicalInsurance),
       mutualFunds: !!(mutualFunds?.isCompleted || mutualFunds),
       equities: !!(equities?.isCompleted || equities),
