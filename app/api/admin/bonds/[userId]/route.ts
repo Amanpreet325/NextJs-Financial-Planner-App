@@ -3,9 +3,15 @@ import prisma from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../../auth/[...nextauth]/route";
 
+type RouteParams = {
+  params: {
+    userId: string;
+  }
+}
+
 export async function GET(
-  req: NextRequest,
-   { params }: { params: { userId: string } }
+  request: NextRequest,
+  { params }: RouteParams
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -13,7 +19,7 @@ export async function GET(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-        const { userId } =  params;
+    const { userId } = params;
     const userIdNum = parseInt(userId);
 
     const bonds = await prisma.bonds.findUnique({
@@ -41,8 +47,8 @@ return NextResponse.json({ bonds: bondsArray });
 }
 
 export async function POST(
-  req: NextRequest,
-  { params }: { params: { userId: string } }
+  request: NextRequest,
+  { params }: RouteParams
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -51,7 +57,7 @@ export async function POST(
     }
 
     const userId = parseInt(params.userId);
-    const data = await req.json();
+    const data = await request.json();
 
     const bonds = await prisma.bonds.upsert({
       where: { userId },
