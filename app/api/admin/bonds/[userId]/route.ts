@@ -5,7 +5,7 @@ import { authOptions } from "../../../auth/[...nextauth]/route";
 
 export async function GET(
   _req: Request,
-  { params }: { params: { userId: string } }
+  { params }: { params: Record<string, string | string[]> }
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -13,7 +13,12 @@ export async function GET(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const userIdNum = parseInt(params.userId, 10);
+    const userIdParam = params.userId;
+    const userIdStr = Array.isArray(userIdParam) ? userIdParam[0] : userIdParam;
+    const userIdNum = parseInt(userIdStr ?? "", 10);
+    if (Number.isNaN(userIdNum)) {
+      return NextResponse.json({ error: "Invalid userId" }, { status: 400 });
+    }
 
     const bonds = await prisma.bonds.findUnique({
       where: { userId: userIdNum },
@@ -35,7 +40,7 @@ export async function GET(
 
 export async function POST(
   req: Request,
-  { params }: { params: { userId: string } }
+  { params }: { params: Record<string, string | string[]> }
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -43,7 +48,13 @@ export async function POST(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const userId = parseInt(params.userId, 10);
+    const userIdParam = params.userId;
+    const userIdStr = Array.isArray(userIdParam) ? userIdParam[0] : userIdParam;
+    const userId = parseInt(userIdStr ?? "", 10);
+    if (Number.isNaN(userId)) {
+      return NextResponse.json({ error: "Invalid userId" }, { status: 400 });
+    }
+
     const data = await req.json();
 
     const bonds = await prisma.bonds.upsert({
