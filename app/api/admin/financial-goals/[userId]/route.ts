@@ -3,7 +3,10 @@ import prisma from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../../auth/[...nextauth]/route";
 
-export async function GET(req: NextRequest, props: { params: Promise<{ userId: string }> }) {
+export async function GET(
+  _req: Request,
+  props: { params: Promise<Record<string, string | string[]>> }
+) {
   const params = await props.params;
   try {
     const session = await getServerSession(authOptions);
@@ -11,10 +14,14 @@ export async function GET(req: NextRequest, props: { params: Promise<{ userId: s
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const userId = parseInt(params.userId);
-
+    const userIdParam = params.userId;
+    const userIdStr = Array.isArray(userIdParam) ? userIdParam[0] : userIdParam;
+    const userIdNum = parseInt(userIdStr ?? "", 10);
+    if (Number.isNaN(userIdNum)) {
+      return NextResponse.json({ error: "Invalid userId" }, { status: 400 });
+    }
     const financialGoals = await prisma.financialGoals.findUnique({
-      where: { userId },
+      where: { userId: userIdNum },
     });
 
     if (!financialGoals) {
