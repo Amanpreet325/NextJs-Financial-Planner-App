@@ -5,7 +5,7 @@ import { authOptions } from "../../../auth/[...nextauth]/route";
 
 export async function GET(
   req: NextRequest,
-   { params }: { params: { userId: string } }
+  context: { params: { userId: string } }
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -13,7 +13,7 @@ export async function GET(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-        const { userId } = await params;
+    const { userId } = context.params;
     const userIdNum = parseInt(userId);
 
     const bonds = await prisma.bonds.findUnique({
@@ -23,14 +23,14 @@ export async function GET(
     if (!bonds) {
       return NextResponse.json({ error: "Bonds not found" }, { status: 404 });
     }
-const investments = bonds.investments;
-let bondsArray: any[] = [];
+    const investments = bonds.investments;
+    let bondsArray: any[] = [];
 
-if (Array.isArray(investments)) {
-  bondsArray = investments;
-}
+    if (Array.isArray(investments)) {
+      bondsArray = investments;
+    }
 
-return NextResponse.json({ bonds: bondsArray });
+    return NextResponse.json({ bonds: bondsArray });
   } catch (error) {
     console.error("Error fetching bonds:", error);
     return NextResponse.json(
@@ -42,7 +42,7 @@ return NextResponse.json({ bonds: bondsArray });
 
 export async function POST(
   req: NextRequest,
-  { params }: { params: { userId: string } }
+  context: { params: { userId: string } }
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -50,7 +50,7 @@ export async function POST(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const userId = parseInt(params.userId);
+    const userId = parseInt(context.params.userId);
     const data = await req.json();
 
     const bonds = await prisma.bonds.upsert({
