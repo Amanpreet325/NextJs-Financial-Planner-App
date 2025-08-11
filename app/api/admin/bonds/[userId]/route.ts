@@ -5,7 +5,7 @@ import { authOptions } from "../../../auth/[...nextauth]/route";
 
 export async function GET(
   req: NextRequest,
-   { params }: { params: Promise<{ userId: string }> }
+   { params }: { params: { userId: string } }
 ) {
   try {
     const session = await getServerSession(authOptions);
