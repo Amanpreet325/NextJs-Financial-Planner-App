@@ -2,7 +2,7 @@
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { useState, useEffect } from "react"
+import { useState, useEffect, Suspense } from "react"
 import { useForm, useFieldArray } from "react-hook-form"
 import { useSearchParams, useRouter } from "next/navigation"
 import { useSession } from "next-auth/react"
@@ -11,7 +11,6 @@ import { SiteHeader } from "@/components/site-header"
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
 import { GridPattern } from "@/components/grid-pattern"
 import { Form, FormField, FormItem, FormControl } from "@/components/ui/form"
-import { cn } from "@/lib/utils"
 
 const fields = [
   "Name of Account Holder",
@@ -28,7 +27,7 @@ const fields = [
 
 const accountLabels = ["I", "II", "III", "IV"]
 
-export default function PPFPage() {
+function PPFPageContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const { data: session, status } = useSession();
@@ -332,5 +331,13 @@ export default function PPFPage() {
         </div>
       </SidebarInset>
     </SidebarProvider>
+  )
+}
+
+export default function PPFPage() {
+  return (
+    <Suspense fallback={<div className="p-6">Loading...</div>}>
+      <PPFPageContent />
+    </Suspense>
   )
 }

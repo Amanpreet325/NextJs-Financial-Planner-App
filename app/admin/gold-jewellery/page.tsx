@@ -11,6 +11,7 @@ import { SiteHeader } from "@/components/site-header"
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
 import { GridPattern } from "@/components/grid-pattern"
 import { Form, FormField, FormItem, FormControl } from "@/components/ui/form"
+import { AdminPageWrapper } from "@/components/AdminPageWrapper"
 
 type GoldItem = {
   no: string
@@ -28,7 +29,7 @@ type JewelleryItem = {
   basis: string
 }
 
-export default function GoldJewelleryPage() {
+function GoldJewelleryPageContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const { data: session, status } = useSession();
@@ -417,5 +418,13 @@ export default function GoldJewelleryPage() {
         </div>
       </SidebarInset>
     </SidebarProvider>
+  )
+}
+
+export default function GoldJewelleryPage() {
+  return (
+    <AdminPageWrapper>
+      <GoldJewelleryPageContent />
+    </AdminPageWrapper>
   )
 }

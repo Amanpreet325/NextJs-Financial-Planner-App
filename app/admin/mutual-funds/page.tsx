@@ -30,7 +30,9 @@ type MutualFundRow = {
   marketValue: string
 }
 
-export default function MutualFundsPage() {
+import { AdminPageWrapper } from "@/components/AdminPageWrapper"
+
+function MutualFundsPageContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const { data: session, status } = useSession();
@@ -377,5 +379,13 @@ export default function MutualFundsPage() {
         </div>
       </SidebarInset>
     </SidebarProvider>
+  )
+}
+
+export default function MutualFundsPage() {
+  return (
+    <AdminPageWrapper>
+      <MutualFundsPageContent />
+    </AdminPageWrapper>
   )
 }

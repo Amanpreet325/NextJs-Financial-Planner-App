@@ -12,6 +12,7 @@ import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
 import { GridPattern } from "@/components/grid-pattern"
 import { Form, FormField, FormItem, FormControl } from "@/components/ui/form"
 import { cn } from "@/lib/utils"
+import { AdminPageWrapper } from "@/components/AdminPageWrapper"
 
 type Row = {
   no: string
@@ -45,7 +46,7 @@ const columns = [
   "Nominee"
 ]
 
-export default function TimeDepositsPage() {
+function TimeDepositsPageContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const { data: session, status } = useSession();
@@ -369,5 +370,13 @@ export default function TimeDepositsPage() {
         </div>
       </SidebarInset>
     </SidebarProvider>
+  )
+}
+
+export default function TimeDepositsPage() {
+  return (
+    <AdminPageWrapper>
+      <TimeDepositsPageContent />
+    </AdminPageWrapper>
   )
 }

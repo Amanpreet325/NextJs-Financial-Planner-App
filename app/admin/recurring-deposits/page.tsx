@@ -11,7 +11,7 @@ import { SiteHeader } from "@/components/site-header"
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
 import { GridPattern } from "@/components/grid-pattern"
 import { Form, FormField, FormItem, FormControl } from "@/components/ui/form"
-import { cn } from "@/lib/utils"
+import { AdminPageWrapper } from "@/components/AdminPageWrapper"
 
 type Row = {
   no: string
@@ -41,7 +41,7 @@ const columns = [
   "Nominee"
 ]
 
-export default function RecurringDepositsPage() {
+function RecurringDepositsPageContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const { data: session, status } = useSession();
@@ -340,5 +340,13 @@ export default function RecurringDepositsPage() {
         </div>
       </SidebarInset>
     </SidebarProvider>
+  )
+}
+
+export default function RecurringDepositsPage() {
+  return (
+    <AdminPageWrapper>
+      <RecurringDepositsPageContent />
+    </AdminPageWrapper>
   )
 }

@@ -12,6 +12,7 @@ import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
 import { GridPattern } from "@/components/grid-pattern"
 import { cn } from "@/lib/utils"
 import { de } from "zod/v4/locales"
+import { AdminPageWrapper } from "@/components/AdminPageWrapper"
 
 const columns = [
 	"No.",
@@ -26,7 +27,7 @@ const columns = [
 	"Savings / Liquid M/F",
 ]
 
-export default function DemandDepositsPage() {
+function DemandDepositsPageContent() {
 	const searchParams = useSearchParams();
 	const router = useRouter();
 	const { data: session, status } = useSession();
@@ -337,4 +338,12 @@ export default function DemandDepositsPage() {
 			</SidebarInset>
 		</SidebarProvider>
 	)
+}
+
+export default function DemandDepositsPage() {
+  return (
+    <AdminPageWrapper>
+      <DemandDepositsPageContent />
+    </AdminPageWrapper>
+  )
 }

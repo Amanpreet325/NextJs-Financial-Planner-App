@@ -37,10 +37,7 @@ export const authOptions: NextAuthOptions = {
         // token.sub is the default subject claim for JWT
         session.user.id = (token.sub || token.id) as string;
         // Attach custom properties if present on token
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore - augment session.user with custom fields
         session.user.role = token.role;
-        // @ts-ignore
         session.user.username = token.username;
       }
       return session;

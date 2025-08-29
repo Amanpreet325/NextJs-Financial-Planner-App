@@ -7,7 +7,7 @@ import { TopBar } from "@/components/client/layout/TopBar";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ArrowUpIcon, ArrowDownIcon, TrendingUpIcon, DollarSignIcon, PiggyBankIcon, CreditCardIcon, TargetIcon, AlertTriangleIcon } from "lucide-react";
+import { ArrowUpIcon, TrendingUpIcon, DollarSignIcon, PiggyBankIcon, CreditCardIcon, TargetIcon, AlertTriangleIcon } from "lucide-react";
 import { NetWorthChart } from "@/components/client/charts/NetWorthChart";
 import { ExpensePieChart } from "@/components/client/charts/ExpensePieChart";
 import { CashFlowChart } from "@/components/client/charts/CashFlowChart";
@@ -18,6 +18,7 @@ export default function ClientDashboard() {
   const { data: session, status } = useSession();
   const router = useRouter();
   const { data: netWorthData, loading: netWorthLoading, error: netWorthError } = useNetWorthData();
+  const mockKpis = useMockKpis();
 
   useEffect(() => {
     if (status === "loading") return;
@@ -32,8 +33,6 @@ export default function ClientDashboard() {
   if (netWorthError) {
     return <div className="client-dashboard-vars p-6 text-red-500">Error: {netWorthError}</div>;
   }
-
-  const kpis = useMockKpis();
 
   return (
     <div className="client-dashboard-vars min-h-svh bg-slate-900">

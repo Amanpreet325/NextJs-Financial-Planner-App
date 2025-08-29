@@ -11,7 +11,7 @@ import { SiteHeader } from "@/components/site-header"
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
 import { GridPattern } from "@/components/grid-pattern"
 import { Form, FormField, FormItem, FormControl } from "@/components/ui/form"
-import { cn } from "@/lib/utils"
+import { AdminPageWrapper } from "@/components/AdminPageWrapper"
 
 const columns = [
   "No.",
@@ -25,7 +25,7 @@ const columns = [
   "Nominee"
 ]
 
-export default function BondsPage() {
+function BondsPageContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const { data: session, status } = useSession();
@@ -309,5 +309,13 @@ export default function BondsPage() {
         </div>
       </SidebarInset>
     </SidebarProvider>
+  )
+}
+
+export default function BondsPage() {
+  return (
+    <AdminPageWrapper>
+      <BondsPageContent />
+    </AdminPageWrapper>
   )
 }

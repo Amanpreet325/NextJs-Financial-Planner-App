@@ -12,8 +12,9 @@ import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 import { GridPattern } from "@/components/grid-pattern";
 import { Form, FormField, FormItem, FormControl } from "@/components/ui/form";
+import { AdminPageWrapper } from "@/components/AdminPageWrapper"
 
-export default function MedicalInsurancePage() {
+function MedicalInsurancePageContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const { data: session, status } = useSession();
@@ -401,4 +402,12 @@ export default function MedicalInsurancePage() {
       </SidebarInset>
     </SidebarProvider>
   );
+}
+
+export default function MedicalInsurancePage() {
+  return (
+    <AdminPageWrapper>
+      <MedicalInsurancePageContent />
+    </AdminPageWrapper>
+  )
 }

@@ -12,9 +12,10 @@ import { useSearchParams } from "next/navigation"
 import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import { Button } from '@/components/ui/button';
+import { AdminPageWrapper } from "@/components/AdminPageWrapper"
 
 
-export default function AdminQuestionnairePage() {
+function AdminQuestionnairePageContent() {
   // 1. React core hooks
   const [spouseName, setSpouseName] = useState("");
   const [currentUser, setCurrentUser] = useState<any>(null);
@@ -1393,4 +1394,12 @@ export default function AdminQuestionnairePage() {
           </SidebarInset>
         </SidebarProvider>
   );
+}
+
+export default function AdminQuestionnairePage() {
+  return (
+    <AdminPageWrapper>
+      <AdminQuestionnairePageContent />
+    </AdminPageWrapper>
+  )
 }

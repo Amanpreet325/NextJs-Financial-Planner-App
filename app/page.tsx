@@ -1,7 +1,7 @@
 
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import { ArrowRight, TrendingUp, Shield, BarChart3, Target, CheckCircle, Star } from 'lucide-react'
+import { ArrowRight, TrendingUp, Shield, BarChart3, Target, Star } from 'lucide-react'
 
 function Header() {
   return (

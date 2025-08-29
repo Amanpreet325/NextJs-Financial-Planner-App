@@ -13,8 +13,9 @@ import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { GridPattern } from "@/components/grid-pattern";
 import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
 import { cn } from "@/lib/utils";
+import { AdminPageWrapper } from "@/components/AdminPageWrapper"
 
-export default function FinancialGoalsPage() {
+function FinancialGoalsPageContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const { data: session, status } = useSession();
@@ -429,4 +430,12 @@ export default function FinancialGoalsPage() {
       </SidebarInset>
     </SidebarProvider>
   );
+}
+
+export default function FinancialGoalsPage() {
+  return (
+    <AdminPageWrapper>
+      <FinancialGoalsPageContent />
+    </AdminPageWrapper>
+  )
 }

@@ -10,6 +10,7 @@ import { SiteHeader } from "@/components/site-header"
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
 import { GridPattern } from "@/components/grid-pattern"
 import { cn } from "@/lib/utils"
+import { AdminPageWrapper } from "@/components/AdminPageWrapper"
 
 const columns = [
   "No.",
@@ -35,7 +36,7 @@ type Row = {
   returnPercent: string
 }
 
-export default function RealEstatePage() {
+function RealEstatePageContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const { data: session, status } = useSession();
@@ -265,5 +266,13 @@ export default function RealEstatePage() {
         </div>
       </SidebarInset>
     </SidebarProvider>
+  )
+}
+
+export default function RealEstatePage() {
+  return (
+    <AdminPageWrapper>
+      <RealEstatePageContent />
+    </AdminPageWrapper>
   )
 }

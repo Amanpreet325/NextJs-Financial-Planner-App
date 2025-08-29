@@ -12,6 +12,7 @@ import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
 import { GridPattern } from "@/components/grid-pattern"
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion"
 import { Form, FormField, FormItem, FormControl } from "@/components/ui/form"
+import { AdminPageWrapper } from "@/components/AdminPageWrapper"
 
 const ASSET_SECTIONS = [
    {
@@ -124,7 +125,7 @@ type SectionState = {
 	rows: Row[]
 }
 
-export default function NetWorthPage() {
+function NetWorthPageContent() {
 	const searchParams = useSearchParams();
 	const router = useRouter();
 	const { data: session, status } = useSession();
@@ -447,4 +448,12 @@ export default function NetWorthPage() {
 			</SidebarInset>
 		</SidebarProvider>
 	)
+}
+
+export default function NetWorthPage() {
+  return (
+    <AdminPageWrapper>
+      <NetWorthPageContent />
+    </AdminPageWrapper>
+  )
 }

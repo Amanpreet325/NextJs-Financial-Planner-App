@@ -11,6 +11,7 @@ import { SiteHeader } from "@/components/site-header"
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
 import { GridPattern } from "@/components/grid-pattern"
 import { Form, FormField, FormItem, FormControl } from "@/components/ui/form"
+import { AdminPageWrapper } from "@/components/AdminPageWrapper"
 
 type EquityRow = {
   no: string
@@ -26,7 +27,7 @@ type EquityRow = {
   market: string
 }
 
-export default function EquitiesPage() {
+function EquitiesPageContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const { data: session, status } = useSession();
@@ -99,7 +100,7 @@ export default function EquitiesPage() {
         setSaveStatus('✗ Save failed');
         setTimeout(() => setSaveStatus(''), 3000);
       }
-    } catch (error) {
+    } catch {
       setSaveStatus('✗ Save failed');
       setTimeout(() => setSaveStatus(''), 3000);
     } finally {
@@ -315,5 +316,13 @@ export default function EquitiesPage() {
         </div>
       </SidebarInset>
     </SidebarProvider>
+  )
+}
+
+export default function EquitiesPage() {
+  return (
+    <AdminPageWrapper>
+      <EquitiesPageContent />
+    </AdminPageWrapper>
   )
 }
