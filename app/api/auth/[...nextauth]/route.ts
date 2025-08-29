@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import NextAuth, { NextAuthOptions, Session as NextAuthSession, TokenSet } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaClient } from "@/lib/generated/prisma";
