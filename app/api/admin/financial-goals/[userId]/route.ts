@@ -38,7 +38,10 @@ export async function GET(
   }
 }
 
-export async function POST(req: NextRequest, props: { params: Promise<{ userId: string }> }) {
+export async function POST(
+  req: Request,
+  props: { params: Promise<Record<string, string | string[]>> }
+) {
   const params = await props.params;
   try {
     const session = await getServerSession(authOptions);
@@ -46,7 +49,12 @@ export async function POST(req: NextRequest, props: { params: Promise<{ userId: 
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const userId = parseInt(params.userId);
+    const userIdParam = params.userId;
+    const userIdStr = Array.isArray(userIdParam) ? userIdParam[0] : userIdParam;
+    const userId = parseInt(userIdStr ?? "", 10);
+    if (Number.isNaN(userId)) {
+      return NextResponse.json({ error: "Invalid userId" }, { status: 400 });
+    }
     const data = await req.json();
 
     const financialGoals = await prisma.financialGoals.upsert({

@@ -39,12 +39,12 @@ export function LoginForm({ className, ...props }: LoginFormProps) {
         if (userData?.user?.role === "admin") {
           window.location.href = "/admin/dashboard";
         } else {
-          window.location.href = "/dashboard";
+          window.location.href = "/client/dashboard";
         }
       } catch (error) {
         console.error("Error fetching session:", error);
         // Default redirect if we can't determine role
-        window.location.href = "/dashboard";
+        window.location.href = "/client/dashboard";
       }
     }
   };
@@ -58,7 +58,7 @@ export function LoginForm({ className, ...props }: LoginFormProps) {
               <div className="flex flex-col items-center text-center">
                 <h1 className="text-2xl font-bold">Welcome back</h1>
                 <p className="text-muted-foreground text-balance">
-                  Login to your Acme Inc account
+                  Login to your Financix account
                 </p>
               </div>
               <div className="grid gap-3">

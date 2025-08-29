@@ -1,11 +1,11 @@
-import NextAuth from "next-auth";
+import NextAuth, { NextAuthOptions, Session as NextAuthSession, TokenSet } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaClient } from "@/lib/generated/prisma";
 import bcrypt from "bcryptjs";
 
 const prisma = new PrismaClient();
 
-export const authOptions = {
+export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -23,6 +23,7 @@ export const authOptions = {
             id: user.id.toString(), 
             email: user.email,
             name: user.name || "",
+            username: user.username,
             role: user.role 
           };
         }
@@ -31,18 +32,25 @@ export const authOptions = {
     })
   ],
   callbacks: {
-    async session({ session, token }) {
+    async session({ session, token }: { session: NextAuthSession; token: any }) {
       if (session?.user) {
-        session.user.id = token.sub;
-        // @ts-ignore - Add role to session
+        // token.sub is the default subject claim for JWT
+        session.user.id = (token.sub || token.id) as string;
+        // Attach custom properties if present on token
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore - augment session.user with custom fields
         session.user.role = token.role;
+        // @ts-ignore
+        session.user.username = token.username;
       }
       return session;
     },
-    async jwt({ token, user }) {
+    async jwt({ token, user }: { token: any; user?: any }) {
       if (user) {
-        // @ts-ignore - Add role to token from user
+        token.id = user.id;
+        // copy custom properties from user to token
         token.role = user.role;
+        token.username = user.username;
       }
       return token;
     }

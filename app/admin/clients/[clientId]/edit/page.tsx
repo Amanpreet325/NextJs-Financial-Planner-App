@@ -37,7 +37,7 @@ export default function EditClientPage() {
     mutualFunds: boolean;
     equities: boolean;
     bonds: boolean;
-  // ppf: boolean; (removed for 14 forms)
+    ppf: boolean;
     realEstate: boolean;
     goldJewellery: boolean;
     timeDeposits: boolean;
@@ -57,7 +57,7 @@ export default function EditClientPage() {
     mutualFunds: false,
     equities: false,
     bonds: false,
-  // ppf: false, (removed for 14 forms)
+    ppf: false,
     realEstate: false,
     goldJewellery: false,
     timeDeposits: false,
@@ -127,7 +127,7 @@ export default function EditClientPage() {
       { key: 'mutualFunds', path: '/admin/mutual-funds', name: 'Mutual Funds' },
       { key: 'equities', path: '/admin/equities', name: 'Equities' },
       { key: 'bonds', path: '/admin/bonds', name: 'Bonds' },
-  // { key: 'ppf', path: '/admin/ppf', name: 'PPF' }, (removed for 14 forms)
+      { key: 'ppf', path: '/admin/ppf', name: 'PPF' },
       { key: 'realEstate', path: '/admin/real-estate', name: 'Real Estate' },
       { key: 'goldJewellery', path: '/admin/gold-jewellery', name: 'Gold & Jewellery' },
       { key: 'timeDeposits', path: '/admin/time-deposits', name: 'Time Deposits' },
@@ -381,11 +381,11 @@ export default function EditClientPage() {
                 </Card>
 
                 {/* Bank Deposits */}
-                <Card className={`bg-gradient-to-br from-background to-muted/60 ${progress.demandDeposits && progress.timeDeposits && progress.recurringDeposits ? 'border-green-500/50 bg-green-50/20' : 'border-orange-500/50'}`}>
+                <Card className={`bg-gradient-to-br from-background to-muted/60 ${progress.demandDeposits && progress.timeDeposits && progress.recurringDeposits && progress.ppf ? 'border-green-500/50 bg-green-50/20' : 'border-orange-500/50'}`}>
                   <CardHeader>
                     <CardTitle className="flex items-center justify-between">
                       <span>Bank Deposits</span>
-                      {(progress.demandDeposits && progress.timeDeposits && progress.recurringDeposits) ? (
+                      {(progress.demandDeposits && progress.timeDeposits && progress.recurringDeposits && progress.ppf) ? (
                         <span className="text-green-600 text-sm">✓ Complete</span>
                       ) : (
                         <span className="text-orange-600 text-sm">⚠ Pending</span>
@@ -418,7 +418,13 @@ export default function EditClientPage() {
                       >
                         Recurring Deposits {progress.recurringDeposits ? "✓" : ""}
                       </Button>
-                      {/* PPF button removed for 14 forms */}
+                      <Button 
+                        className="w-full"
+                        variant={progress.ppf ? "outline" : "default"}
+                        onClick={() => router.push(`/admin/ppf?userId=${clientId}`)}
+                      >
+                        PPF Accounts {progress.ppf ? "✓" : ""}
+                      </Button>
                     </div>
                   </CardContent>
                 </Card>

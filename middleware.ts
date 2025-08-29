@@ -6,10 +6,11 @@ export async function middleware(req: NextRequest) {
   // Get the pathname from the URL
   const pathname = req.nextUrl.pathname;
   
-  // Skip middleware for API routes and public assets
+  // Skip middleware for API routes, public assets, and the landing page
   if (pathname.startsWith('/api') || 
       pathname.includes('.') || 
-      pathname === '/') {
+      pathname === '/' ||
+      pathname === '/login') {
     return NextResponse.next();
   }
 
@@ -21,12 +22,12 @@ export async function middleware(req: NextRequest) {
   
   // If no token, redirect to login
   if (!token) {
-    return NextResponse.redirect(new URL('/', req.url));
+    return NextResponse.redirect(new URL('/login', req.url));
   }
 
-  // If trying to access admin routes but not admin, redirect
+  // If trying to access admin routes but not admin, redirect to client dashboard
   if (pathname.startsWith('/admin') && token.role !== 'admin') {
-    return NextResponse.redirect(new URL('/dashboard', req.url));
+    return NextResponse.redirect(new URL('/client/dashboard', req.url));
   }
 
   return NextResponse.next();

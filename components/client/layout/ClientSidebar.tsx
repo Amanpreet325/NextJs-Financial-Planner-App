@@ -1,6 +1,7 @@
 "use client"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import { useSession } from "next-auth/react"
 import { IconLayoutGrid, IconCreditCard, IconChartPie, IconPigMoney, IconReportMoney, IconTargetArrow, IconBellRinging } from "@tabler/icons-react"
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupLabel, SidebarHeader, SidebarInset, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarProvider, SidebarRail } from "@/components/ui/sidebar"
 import { NavUser } from "@/components/nav-user"
@@ -16,6 +17,15 @@ const items = [
 
 export function ClientShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
+  const { data: session } = useSession()
+
+  // Get user info from session, fallback to defaults if not available
+  const userInfo = {
+    name: session?.user?.username || session?.user?.name || session?.user?.email?.split('@')[0] || "Client",
+    email: session?.user?.email || "client@example.com",
+    avatar: session?.user?.image || "/avatars/shadcn.jpg"
+  }
+
   return (
     <SidebarProvider defaultOpen>
       <Sidebar collapsible="icon" variant="inset">
@@ -38,7 +48,7 @@ export function ClientShell({ children }: { children: React.ReactNode }) {
         </SidebarHeader>
         <SidebarContent />
         <SidebarFooter>
-          <NavUser user={{ name: "Client", email: "client@example.com", avatar: "/avatars/shadcn.jpg" }} />
+          <NavUser user={userInfo} />
         </SidebarFooter>
         <SidebarRail />
       </Sidebar>
